@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.3.0 released 2024-06-21
+-------------------------
+
+- automatically pass reply-to header to Mailgun (18fb53f_)
+- support flask-mail 0.10.0 changes to signal pattern (3cfe430_)
+
+.. _18fb53f: https://github.com/level12/keg-mail/commit/18fb53f
+.. _3cfe430: https://github.com/level12/keg-mail/commit/3cfe430
+
+
 0.2.4 released 2022-11-10
 -------------------------
 
