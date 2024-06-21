@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.3.1 released 2024-06-21
+-------------------------
+
+- resolve missed signal signature change (52fcc11_)
+
+.. _52fcc11: https://github.com/level12/keg-mail/commit/52fcc11
+
+
 0.3.0 released 2024-06-21
 -------------------------
 
