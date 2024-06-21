@@ -31,7 +31,7 @@ setup(
     packages=find_packages(),
     zip_safe=True,
     install_requires=[
-        'flask_mail',
+        'flask_mail>=0.10.0',
         'Keg',
         'SQLAlchemy-Utils',
         'arrow',

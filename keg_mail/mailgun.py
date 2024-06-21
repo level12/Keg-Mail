@@ -147,10 +147,10 @@ class MailgunClient:
 
         resp = self._post_request('messages', request_body, files=files)
         flask_mail.email_dispatched.send(
-            message,
+            current_app._get_current_object(),
+            message=message,
             mailgun_response=resp,
             message_uuid=message_uuid,
-            app=current_app._get_current_object(),
         )
         return resp
 
