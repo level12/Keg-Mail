@@ -69,7 +69,7 @@ class TestMailgunClient:
             cc=['tim@example.com'],
             bcc=['al@example.com'],
         )
-        resp = client.send(message)
+        client.send(message)
 
         req = requests_mock.request_history[0]
         body = urllib.parse.parse_qs(req.text)
