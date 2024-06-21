@@ -30,7 +30,7 @@ class _MailMixin(flask_mail._MailMixin):
     def mailgun_poll_events(self):
         return self.mailgun_client.poll_events()
 
-    def log_message_sent(self, message, mailgun_response=None, message_uuid=None, app=None,
+    def log_message_sent(self, app, message=None, mailgun_response=None, message_uuid=None,
                          _commit=True):
         if not self.enable_logging:
             return
