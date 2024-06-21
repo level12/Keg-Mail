@@ -136,6 +136,8 @@ class MailgunClient:
             'o:testmode': 'yes' if self.testing else 'no'
         }
 
+        if message.reply_to:
+            request_body['h:Reply-To'] = message.reply_to
         request_body.update(mailgun_opts or {})
 
         files = None

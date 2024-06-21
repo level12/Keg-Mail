@@ -52,6 +52,29 @@ class TestMailgunClient:
         assert body['text'] == ['very important message']
         assert body['html'] == ['<blink>very important message</blink>']
         assert 'attachment' not in body
+        assert 'h:Reply-To' not in body
+
+    def test_send_with_reply_to(self, requests_mock):
+        requests_mock.post('https://api.mailgun.net/v3/example.com/messages',
+                           json={'response': 'ok'})
+
+        client = MailgunClient(domain='example.com', api_key='foo', testing=False)
+        message = flask_mail.Message(
+            subject='RE: xyz',
+            recipients=['bob@example.com', 'joe@example.com'],
+            body='very important message',
+            html='<blink>very important message</blink>',
+            sender='no-reply@aol.com',
+            reply_to='some-other-target@testing.com',
+            cc=['tim@example.com'],
+            bcc=['al@example.com'],
+        )
+        resp = client.send(message)
+
+        req = requests_mock.request_history[0]
+        body = urllib.parse.parse_qs(req.text)
+
+        assert body['h:Reply-To'] == ['some-other-target@testing.com']
 
     def test_send_with_mailgun_opts(self, requests_mock):
         requests_mock.post('https://api.mailgun.net/v3/example.com/messages',
@@ -234,7 +257,7 @@ class TestMailgunClient:
     def test_poll_events(self, requests_mock):
         now = arrow.utcnow().float_timestamp
 
-        log_ent = ents.MailLog.testing_create(
+        log_ent = ents.MailLog.fake(
             status=keg_mail.EmailLogStatus.sent,
             status_updated=arrow.utcnow().shift(hours=-2)
         )
@@ -343,7 +366,7 @@ class TestMailgunClient:
 
     def test_update_message_status(self, requests_mock):
         now = arrow.utcnow()
-        log_ent = ents.MailLog.testing_create(
+        log_ent = ents.MailLog.fake(
             status=keg_mail.EmailLogStatus.sent,
             status_updated=now.shift(hours=-2),
             message_id='foo',
